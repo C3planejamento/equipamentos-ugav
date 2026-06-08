@@ -1,0 +1,12 @@
+# Documentação e dados que não devem ir para o repositório público
+CLAUDE.md
+acompanhamento_UGAV_*.json
+*.xlsx
+*.xlsm
+
+# Config de outras hospedagens
+vercel.json
+.vercelignore
+
+# Local do Claude Code
+.claude/
