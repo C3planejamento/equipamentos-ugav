@@ -350,7 +350,7 @@ body[data-tema="preto"] .evb.ok,body[data-tema="azul"] .evb.ok{color:var(--ok)}
 .tvclock{margin-left:auto;text-align:right}.tvtime{font-family:var(--disp);font-weight:700;font-size:3vw;line-height:1;color:var(--orange)}
 .tvdate{font-size:1.1vw;color:#cfd6f4}
 .tvexit{margin-left:18px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:10px;padding:10px 14px;font-family:var(--disp);font-weight:600;font-size:14px}
-.tvbody{flex:1;padding:1.2vw 2.2vw;overflow:hidden;display:flex;flex-direction:column;gap:1vw}
+.tvbody{flex:1;padding:1.2vw 2.2vw;overflow:auto;display:flex;flex-direction:column;gap:1vw}
 .tvcols{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;flex:1;min-height:0}
 .tvcol{background:#fff;color:#1a2150;border-radius:14px;padding:.9vw 1.3vw;overflow:hidden;display:flex;flex-direction:column}
 .tvcol .tvsec{color:#2b366f;font-size:1.4vw;margin-bottom:.5vw}
@@ -1163,25 +1163,8 @@ function tvTick(){const n=new Date();const hh=String(n.getHours()).padStart(2,'0
   const dEl=document.getElementById('tvDate');if(dEl)dEl.textContent=hojeBR();}
 function tvRender(){
   const lg=document.getElementById('tvlogo');if(lg&&!lg.src)lg.src=LOGO;
-  let a=0,c=0,r=0,sR=0,sP=0;
-  DATA.order.forEach(t=>{const p=progresso(t);sR+=p;sP+=previsto(t);const g=statusGeral(t);if(g.k==='c')c++;else if(g.k==='a')a++;else if(g.k==='r')r++;});
-  const N=DATA.order.length,mr=Math.round(sR/N),mp=Math.round(sP/N);
-  const d=diffDias(META.prazo);const dtxt=d===null?'—':d<0?Math.abs(d)+' d ATRASO':d===0?'HOJE':d+' dias';const dcls=d===null?'':d<0?'over':d<=7?'warn':'ok';
-  const kpis=`<div class="tvkpis">
-    <div class="tvk"><div class="tvv">${N}</div><div class="tvl">Equipamentos</div></div>
-    <div class="tvk"><div class="tvv">${mr}%</div><div class="tvl">Avanço realizado</div></div>
-    <div class="tvk"><div class="tvv">${mp}%</div><div class="tvl">Avanço previsto</div></div>
-    <div class="tvk ok"><div class="tvv">${c}</div><div class="tvl">Concluídos</div></div>
-    <div class="tvk am"><div class="tvv">${a}</div><div class="tvl">Em andamento</div></div>
-    <div class="tvk rd"><div class="tvv">${r}</div><div class="tvl">Atrasados</div></div>
-    <div class="tvk ${dcls}"><div class="tvv" style="font-size:2.2vw">${dtxt}</div><div class="tvl">Prazo: ${fmtBR(META.prazo)}</div></div>
-  </div>`;
-  const cols=`<div class="tvcols">
-    <div class="tvcol"><div class="tvsec">Resumo de marcos — Previsto × Realizado</div><div class="thwrap">${marcosTabelaHTML()}</div></div>
-    <div class="tvcol"><div class="tvsec">Controle de THs — diário (1º / 2º / 3º)</div>${thDiarioHTML(false)}</div>
-  </div>`;
-  document.getElementById('tvBody').innerHTML=`${kpis}${cols}`;
-  const pgEl=document.getElementById('tvPg');if(pgEl)pgEl.textContent='Painel · KPIs · Marcos · THs';
+  document.getElementById('tvBody').innerHTML=resumoInner(false);
+  const pgEl=document.getElementById('tvPg');if(pgEl)pgEl.textContent='Resumo Geral - role para ver tudo';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){
   if(document.getElementById('qcrep').classList.contains('on')){qcCloseRep();return;}
