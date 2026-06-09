@@ -351,6 +351,7 @@ body[data-tema="preto"] .evb.ok,body[data-tema="azul"] .evb.ok{color:var(--ok)}
 .tvdate{font-size:1.1vw;color:#cfd6f4}
 .tvexit{margin-left:18px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:10px;padding:10px 14px;font-family:var(--disp);font-weight:600;font-size:14px}
 .tvbody{flex:1;padding:1.2vw 2.2vw;overflow:auto;display:block}
+.tbtn.on{border-color:var(--orange);color:var(--orange)}
 .tvcols{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;flex:1;min-height:0}
 .tvcol{background:#fff;color:#1a2150;border-radius:14px;padding:.9vw 1.3vw;overflow:hidden;display:flex;flex-direction:column}
 .tvcol .tvsec{color:#2b366f;font-size:1.4vw;margin-bottom:.5vw}
@@ -493,7 +494,7 @@ table.thtab tfoot td{position:sticky;bottom:0;font-family:var(--disp);font-weigh
           <button data-t="branco" onclick="setTema('branco')">Branco</button>
         </div>
         <span class="userchip" id="userchip"></span>
-        <button class="tbtn" onclick="tvOpen()" title="Exibir em TV (somente visualização)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>TV</button>
+        <button class="tbtn" onclick="tvOpen()" title="Exibir em TV (somente visualização)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>TV</button><button class="tbtn" id="somBtn" onclick="toggleSom()" title="Som ao clicar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>Som</button>
         <button class="tbtn" onclick="exportar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Backup</button>
         <button class="tbtn edit-only" onclick="document.getElementById('imp').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 9l5-5 5 5M12 4v12"/></svg>Restaurar</button>
         <input type="file" id="imp" accept="application/json" class="hidden" onchange="importar(event)">
@@ -1182,10 +1183,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){
 
 /* INIT */
 document.documentElement.style.setProperty('--hdrbg','url('+HDRBG+')');
+const LS_SOM='c3ugav_som';
+let SOM=(localStorage.getItem(LS_SOM)!=='off');
+let _somAC=null;
+function clickSound(){ if(!SOM)return; try{ _somAC=_somAC||new (window.AudioContext||window.webkitAudioContext)(); if(_somAC.state==='suspended')_somAC.resume(); var t=_somAC.currentTime; var o=_somAC.createOscillator(),g=_somAC.createGain(); o.type='triangle'; o.frequency.setValueAtTime(900,t); o.frequency.exponentialRampToValueAtTime(340,t+0.05); g.gain.setValueAtTime(0.001,t); g.gain.exponentialRampToValueAtTime(0.13,t+0.005); g.gain.exponentialRampToValueAtTime(0.0001,t+0.09); o.connect(g); g.connect(_somAC.destination); o.start(t); o.stop(t+0.1); }catch(e){} }
+function somBtnLabel(){ var b=document.getElementById('somBtn'); if(!b)return; b.classList.toggle('on',SOM); b.title=SOM?'Som ao clicar: ligado (clique para desligar)':'Som ao clicar: desligado (clique para ligar)'; }
+function toggleSom(){ SOM=!SOM; try{localStorage.setItem(LS_SOM,SOM?'on':'off');}catch(e){} somBtnLabel(); if(SOM)clickSound(); }
+function initSomClick(){ document.addEventListener('click',function(e){ try{ if(e.target.closest('button,a,input,select,label,[onclick]')) clickSound(); }catch(_){} },true); somBtnLabel(); }
 document.getElementById('loginlogo').src=LOGO;
 document.getElementById('brandlogo').src=LOGO;
 document.getElementById('tvlogo').src=LOGO;
 seedCronograma();
+initSomClick();
 /* patch v3: preenche datas previstas novas do cronograma (somente etapas ainda SEM data prevista) */
 /* patch de cronograma removido */
 (function(){const tm=load(LS_TEMA)||'azul';setTema(tm);const s=load(LS_SESS);if(s&&s.role){SESS=s;abrirApp();}})();
