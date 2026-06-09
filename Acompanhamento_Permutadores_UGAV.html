@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>C3 PERMUTADORES — UGAV</title>
+<title>C3 EQUIPAMENTOS — UGAV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -28,6 +28,23 @@ button{font-family:var(--body);cursor:pointer}
 /* LOGIN */
 #login{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(160deg,#0f1740,#162254 55%,#0b1230)}
 #login.off{display:none}
+#hub{position:fixed;inset:0;z-index:150;display:none;flex-direction:column;background:var(--bg);background-attachment:fixed;color:var(--txt)}
+#hub.on{display:flex}
+.hubbar{display:flex;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line)}
+.hublogo img{height:38px;display:block;background:#fff;border-radius:8px;padding:4px 8px}
+.hubtitle h1{font-family:var(--disp);font-size:23px;letter-spacing:1px;margin:0}
+.hubtitle .sub{font-size:12px;color:var(--muted)}
+.hubchip{margin-left:auto;font-size:12px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:6px 12px;border-radius:20px}
+.hubwrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:28px}
+.hubgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;max-width:1080px;width:100%}
+.hubcard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px 20px;text-align:center;color:var(--txt);cursor:pointer;transition:transform .12s,border-color .12s;box-shadow:var(--shadow);font-family:var(--body)}
+.hubcard:hover{transform:translateY(-4px);border-color:var(--orange)}
+.hubcard .hcic{width:58px;height:58px;margin:0 auto 14px;color:var(--orange)}
+.hubcard .hcic svg{width:100%;height:100%}
+.hubcard h2{font-family:var(--disp);font-size:19px;letter-spacing:.5px;margin:0 0 6px}
+.hubcard .hcst{font-size:11.5px;color:var(--muted)}
+.hubcard.ok{border-color:rgba(55,194,106,.45)}.hubcard.ok .hcst{color:var(--ok)}
+.hubcard.soon{opacity:.6}.hubcard.soon:hover{transform:none;border-color:var(--line)}.hubcard.soon .hcst{color:var(--amber)}
 .lcard{width:100%;max-width:370px;background:#1a2456;border:1px solid #2c3c80;border-radius:20px;padding:30px 26px;box-shadow:0 30px 80px -26px #000}
 .lcard .logobox{background:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:center;margin:0 auto 18px;width:fit-content}
 .lcard h2{font-family:var(--disp);text-align:center;color:#fff;font-size:22px;font-weight:600;letter-spacing:1.4px}
@@ -478,7 +495,7 @@ table.thtab tfoot td{position:sticky;bottom:0;font-family:var(--disp);font-weigh
   <div class="lcard">
     <div class="logobox"><img id="loginlogo" alt="C3 Engenharia &amp; Soluções" style="height:46px;display:block"></div>
     <h2>C3 ENGENHARIA</h2>
-    <div class="sub">C3 PERMUTADORES · RPBC — UGAV</div>
+    <div class="sub">C3 EQUIPAMENTOS · RPBC — UGAV</div>
     <div class="lfield"><label>Usuário</label><input id="lu" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')entrar()"></div>
     <div class="lfield"><label>Senha</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')entrar()"></div>
     <button class="lbtn" onclick="entrar()">Entrar</button>
@@ -488,6 +505,34 @@ table.thtab tfoot td{position:sticky;bottom:0;font-family:var(--disp);font-weigh
 </div>
 
 <!-- APP -->
+<div id="hub">
+  <div class="hubbar">
+    <div class="hublogo"><img id="hublogo" alt="C3"></div>
+    <div class="hubtitle"><h1>C3 EQUIPAMENTOS</h1><div class="sub">Parada UGAV · RPBC — 105 PP</div></div>
+    <span class="hubchip" id="hubchip"></span>
+    <button class="tbtn" onclick="sair()" title="Sair">Sair</button>
+  </div>
+  <div class="hubwrap">
+    <div class="hubgrid">
+      <button class="hubcard ok" onclick="abrirModulo('permutadores')">
+        <div class="hcic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="7" width="19" height="10" rx="2"/><path d="M6 7v10M9 7v10M12 7v10M15 7v10M18 7v10"/></svg></div>
+        <h2>PERMUTADORES</h2><div class="hcst">58 equipamentos · disponível</div></button>
+      <button class="hubcard soon" onclick="abrirModulo('torres')">
+        <div class="hcic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="3" width="8" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h8"/></svg></div>
+        <h2>TORRES</h2><div class="hcst">em desenvolvimento</div></button>
+      <button class="hubcard soon" onclick="abrirModulo('vasos')">
+        <div class="hcic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6" rx="6" ry="2.3"/><path d="M6 6v12a6 2.3 0 0 0 12 0V6"/></svg></div>
+        <h2>VASOS</h2><div class="hcst">em desenvolvimento</div></button>
+      <button class="hubcard soon" onclick="abrirModulo('fornos')">
+        <div class="hcic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 16c2 0 3-1.4 3-3 0-2.2-2-3-1.4-5.2C12 9 9 10.2 9 13c0 1.6 1 3 3 3z"/></svg></div>
+        <h2>FORNOS</h2><div class="hcst">em desenvolvimento</div></button>
+      <button class="hubcard soon" onclick="abrirModulo('resfriamento')">
+        <div class="hcic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="2.2"/><path d="M12 9.8c-.5-2.8.5-4.6 2.4-5.2-.6 1.3-1.4 2.9-2.4 5.2zM14.2 12c2.8-.5 4.6.5 5.2 2.4-1.3-.6-2.9-1.4-5.2-2.4zM12 14.2c.5 2.8-.5 4.6-2.4 5.2.6-1.3 1.4-2.9 2.4-5.2zM9.8 12c-2.8.5-4.6-.5-5.2-2.4 1.3.6 2.9 1.4 5.2 2.4z"/></svg></div>
+        <h2>TORRE DE RESFRIAMENTO</h2><div class="hcst">em desenvolvimento</div></button>
+    </div>
+  </div>
+</div>
+
 <div id="app">
   <header>
     <div class="htop">
@@ -496,7 +541,7 @@ table.thtab tfoot td{position:sticky;bottom:0;font-family:var(--disp);font-weigh
         <div class="btitle"><h1>C3 PERMUTADORES</h1><div class="sub">Parada UGAV · RPBC — 105 PP</div></div>
       </div>
       <div class="spacer"></div>
-      <div class="htools">
+      <div class="htools"><button class="tbtn" onclick="abrirHub()" title="Voltar ao menu de equipamentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Menu</button>
         <div class="temaswitch" id="temaSw">
           <button data-t="azul" class="on" onclick="setTema('azul')">Azul</button>
           <button data-t="preto" onclick="setTema('preto')">Preto</button>
@@ -628,10 +673,10 @@ function entrar(){
   if(!rec||rec.p!==p){document.getElementById('lerr').textContent='Usuário ou senha inválidos.';return;}
   SESS={role:rec.r,user:u};save(LS_SESS,SESS);
   document.getElementById('lerr').textContent='';document.getElementById('lp').value='';
-  abrirApp();toast(rec.r==='edit'?'Modo edição liberado':'Acesso somente para visualização');
+  abrirHub();toast(rec.r==='edit'?'Modo edição liberado':'Acesso somente para visualização');
 }
 function sair(){SESS={role:null,user:null};localStorage.removeItem(LS_SESS);curTag=null;fechar();
-  document.getElementById('app').classList.remove('on');document.getElementById('login').classList.remove('off');}
+  document.getElementById('app').classList.remove('on');var _hb=document.getElementById('hub');if(_hb)_hb.classList.remove('on');document.getElementById('login').classList.remove('off');}
 function abrirApp(){
   document.getElementById('login').classList.add('off');document.getElementById('app').classList.add('on');
   const c=document.getElementById('userchip');c.className='userchip '+(SESS.role==='edit'?'edit':'view');
@@ -1224,14 +1269,26 @@ function toggleSom(){ SOM=!SOM; try{localStorage.setItem(LS_SOM,SOM?'on':'off');
 function initSomClick(){ document.addEventListener('click',function(e){ try{ if(e.target.closest('button,a,input,select,label,[onclick]')) clickSound(); }catch(_){} },true); somBtnLabel(); }
 function abrirAjuda(){var a=document.getElementById('ajuda');if(a)a.classList.add('on');}
 function fecharAjuda(){var c=document.getElementById('ajNao');if(c&&c.checked){try{localStorage.setItem('c3ugav_ajuda_v1','1');}catch(e){}} var a=document.getElementById('ajuda');if(a)a.classList.remove('on');}
+function abrirHub(){
+  var l=document.getElementById('login'); if(l)l.classList.add('off');
+  var a=document.getElementById('app'); if(a)a.classList.remove('on');
+  var h=document.getElementById('hub'); if(h)h.classList.add('on');
+  var ch=document.getElementById('hubchip'); if(ch)ch.textContent=(SESS.user||'')+' · '+(SESS.role==='edit'?'Editor':'Visualização');
+}
+function abrirModulo(m){
+  if(m==='permutadores'){ var h=document.getElementById('hub'); if(h)h.classList.remove('on'); abrirApp(); }
+  else { toast('Módulo em desenvolvimento — em breve.'); }
+}
+
 document.getElementById('loginlogo').src=LOGO;
+var _hl=document.getElementById('hublogo');if(_hl)_hl.src=LOGO;
 document.getElementById('brandlogo').src=LOGO;
 document.getElementById('tvlogo').src=LOGO;
 seedCronograma();
 initSomClick();
 /* patch v3: preenche datas previstas novas do cronograma (somente etapas ainda SEM data prevista) */
 /* patch de cronograma removido */
-(function(){const tm=load(LS_TEMA)||'azul';setTema(tm);const s=load(LS_SESS);if(s&&s.role){SESS=s;abrirApp();}})();
+(function(){const tm=load(LS_TEMA)||'azul';setTema(tm);const s=load(LS_SESS);if(s&&s.role){SESS=s;abrirHub();}})();
 </script>
 </body>
 </html>
