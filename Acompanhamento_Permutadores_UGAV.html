@@ -588,7 +588,7 @@ table.thtab tfoot td{position:sticky;bottom:0;font-family:var(--disp);font-weigh
       <ul><li><b>TV</b> — exibe o Resumo Geral em tela cheia (modo painel).</li><li><b>Som</b> — liga/desliga o clique sonoro.</li><li><b>Backup / Restaurar</b> — salva e recupera os dados em arquivo (.json). Faça backup com frequência!</li></ul>
       <div class="note" style="margin-top:8px">Dica: os dados ficam salvos <b>neste navegador</b>. Para levar/compartilhar, use <b>Backup</b> (exportar) e <b>Restaurar</b> (importar).</div>
     </div>
-    <div class="ajfoot"><label><input type="checkbox" id="ajNao"> Não mostrar automaticamente ao abrir</label><button class="lbtn" onclick="fecharAjuda()">Entendi</button></div>
+    <div class="ajfoot"><button class="lbtn" onclick="fecharAjuda()">Entendi</button></div>
   </div>
 </div></div>
 
@@ -637,7 +637,7 @@ function abrirApp(){
   const c=document.getElementById('userchip');c.className='userchip '+(SESS.role==='edit'?'edit':'view');
   c.innerHTML=SESS.user+' · <b>'+(SESS.role==='edit'?'Editor':'Visualização')+'</b>';
   document.querySelectorAll('.edit-only').forEach(e=>e.style.display=podeEditar()?'':'none');
-  go(VIEW);if(!localStorage.getItem('c3ugav_ajuda_v1'))setTimeout(abrirAjuda,350);
+  go(VIEW);
 }
 function setTema(t){document.body.setAttribute('data-tema',t);save(LS_TEMA,t);document.querySelectorAll('#temaSw button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));}
 
