@@ -892,10 +892,10 @@ function abrir(tag){
         <div class="dados">${dd.map(x=>`<div class="drow"><span class="k">${x[0]}</span><span class="v">${x[1]}</span></div>`).join('')}</div>
         <div class="badges" style="margin-top:12px">${badges}</div>
       </div>
-      <div class="panelbox zrbox" style="margin-top:14px"><div class="zrlbl">NOTA ZR / ZF</div><div class="zrval">${e.zr||'—'}</div></div>
+      <div class="panelbox" style="margin-top:14px"><h3>Escopo de serviços · ${e.zr||''}</h3><div class="escopo">${escopoHTML(e.escopo)}</div></div>
     </div>
     <div>
-      <div class="panelbox"><h3>Escopo de serviços · ${e.zr||''}</h3><div class="escopo">${escopoHTML(e.escopo)}</div></div>
+      
       <div class="panelbox" style="margin-top:14px"><h3>Etapas — previsto × concluído (${etapasDe(tag).length})</h3>
         <div class="etapas" id="etapasBox">${etapasHTML(tag)}</div>
         <div class="note">Informe a <b>Data prevista</b> (programação) e a <b>Data realizada</b> (conclusão). Ao preencher a data realizada, a etapa é marcada como concluída (100%). Use a barra para registrar andamento parcial.</div>
